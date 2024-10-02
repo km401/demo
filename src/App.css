@@ -1,42 +1,33 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+
+.login-form-button {
+  width: 100%;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.login-form-forgot {
+  float: right; /* Align "Forgot password" to the right */
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+html, body {
+  height: 100%;        /* Full height */
+  margin: 0;          /* Remove default margin */
+  padding: 0;         /* Remove default padding */
+  width: 100%;        /* Full width */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.form-container {
+  display: flex;               /* Use Flexbox for centering */
+  justify-content: center;     /* Center horizontally */
+  align-items: center;         /* Center vertically */
+  height: 100%;                /* Full height */
+  width: 100vw;                /* Full viewport width */
+  box-sizing: border-box;      /* Include padding and borders in element's total width and height */
 }
 
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+.login-form {
+  max-width: 400px; /* Set a maximum width for the form */
+  width: 100%;      /* Allow the form to be responsive */
+  padding: 40px;    /* Add padding inside the form */
+  border: 1px solid #d9d9d9; /* Optional: add a border */
+  border-radius: 5px; /* Optional: add rounded corners */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Optional: add a shadow */
 }
