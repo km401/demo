@@ -1,11 +1,10 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
-import Home from './pages/home.jsx';
-import LandingPage from './pages/landingPage.jsx';
-import Login from './pages/login.jsx';
-import NoRouteFound from './pages/noRouteFound.jsx';
-import Navbar from './components/navBar.jsx';
-
+import Home from './Pages/home.jsx';
+import LandingPage from './Pages/landingPage.jsx';
+import Login from './Pages/login.jsx';
+import NoRouteFound from './Pages/noRouteFound.jsx';
+import Navbar from './Components/navBar.jsx';
 
 
 
