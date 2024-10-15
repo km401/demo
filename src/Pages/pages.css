@@ -1,0 +1,33 @@
+
+.login-form-button {
+    width: 100%;
+  }
+  
+  .login-form-forgot {
+    float: right; /* Align "Forgot password" to the right */
+  }
+  
+  html, body {
+    height: 100%;        /* Full height */
+    margin: 0;          /* Remove default margin */
+    padding: 0;         /* Remove default padding */
+    width: 100%;        /* Full width */
+  }
+  
+  .form-container {
+    display: flex;               /* Use Flexbox for centering */
+    justify-content: center;     /* Center horizontally */
+    align-items: center;         /* Center vertically */
+    height: 100%;                /* Full height */
+    width: 100%;                /* Full viewport width */
+    box-sizing: border-box;      /* Include padding and borders in element's total width and height */
+  }
+  
+  .login-form {
+    max-width: 400px; /* Set a maximum width for the form */
+    width: 100%;      /* Allow the form to be responsive */
+    padding: 40px;    /* Add padding inside the form */
+    border: 1px solid #d9d9d9; /* Optional: add a border */
+    border-radius: 5px; /* Optional: add rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Optional: add a shadow */
+  }
