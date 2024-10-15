@@ -1,67 +1,38 @@
-import { Form, Input, Button, Checkbox } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
+import Home from './pages/home.jsx';
+import LandingPage from './pages/landingPage.jsx';
+import Login from './pages/login.jsx';
+import NoRouteFound from './pages/noRouteFound.jsx';
+import Navbar from './components/navBar.jsx';
 
-function App() {
-  const onFinish = values => {
-    console.log('Received values of form: ', values);
-  };
+
+
+
+
+const App = () => {
+  const location = useLocation();
+  const notLogin = location.pathname !== '/'
+
 
   return (
-    <div className="form-container">
-      <Form
-        name="normal_login"
-        className="login-form"
-        initialValues={{
-          remember: true,
-        }}
-        onFinish={onFinish}
-      >
-        <Form.Item
-          name="username"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your Username!',
-            },
-          ]}
-        >
-          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your Password!',
-            },
-          ]}
-        >
-          <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            type="password"
-            placeholder="Password"
-          />
-        </Form.Item>
-        <Form.Item>
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
-
-          <a className="login-form-forgot" href="">
-            Forgot password
-          </a>
-        </Form.Item>
-
-        <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-form-button">
-            Log in
-          </Button>
-          Or <a href="">register now!</a>
-        </Form.Item>
-      </Form>
-    </div>
+     <>
+      {notLogin && <Navbar />}
+      <div className='routesWrapper'
+             style={{
+              marginLeft: notLogin ? '256px' : '0', // Adjust left margin if navbar is present
+              padding: '20px',
+              height: '100vh', // Ensure full height
+              boxSizing: 'border-box', // Include padding in height
+            }}>
+        <Routes>
+           <Route path="/" element={<Login />} />
+           <Route path="/home" element={<Home />} />
+           <Route path="*" element={<NoRouteFound />} />
+        </Routes>
+        </div>
+     </>
   );
-}
+};
 
 export default App;
