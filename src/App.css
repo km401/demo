@@ -1,4 +1,9 @@
-.routesWrapper{
-  margin-left: 256px;
+.routesWrapper {
   padding: 20px;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.withNavbar {
+  margin-left: 256px;
 }

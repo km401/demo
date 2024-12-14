@@ -1,13 +1,15 @@
 import {useState} from 'react';
-import {Button, Form, Input, Typography, message} from 'antd';
+import {Button, Form, Input, Typography, message, Skeleton} from 'antd';
 
 const {TextArea} = Input;
 const {Title} = Typography;
 
+
 const Home = () => {
-    const [messageApi, contextHolder] = message.useMessage();
     const [markdownContent, setMarkdownContent] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [messageApi, contextHolder] = message.useMessage();
+
 
     const onFinish = async (values) => {
         const { prompt, grade_level, topic } = values; // Get form field values
@@ -50,7 +52,7 @@ const Home = () => {
     };
 
 
-    return (<div style={{padding: '20px', maxWidth: '600px', margin: '0 auto'}}>
+    return (<div className={'antd-override'} style={{padding: '20px', maxWidth: '700px', margin: '0 auto'}}>
         {contextHolder}
         <Title level={2}>Lesson Plan Generator</Title>
         <Form
@@ -98,10 +100,8 @@ const Home = () => {
         </Form>
 
         <div style={{marginTop: '20px'}}>
-            <div
-                style={{
-                    padding: '10px', whiteSpace: 'pre-wrap', overflowY: 'auto', maxHeight: '300px',
-                }}>
+            <div style={{padding: '10px', whiteSpace: 'pre-wrap', overflowY: 'auto'}}>
+                {isLoading && <Skeleton active />}
                 {markdownContent}
             </div>
         </div>

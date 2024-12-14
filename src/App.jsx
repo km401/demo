@@ -11,26 +11,20 @@ import Navbar from './Components/navBar.jsx';
 
 const App = () => {
   const location = useLocation();
-  const notLogin = location.pathname !== '/'
+  const notLoginScreen = location.pathname !== '/'
 
 
   return (
-     <>
-      {notLogin && <Navbar />}
-      <div className='routesWrapper'
-             style={{
-              marginLeft: notLogin ? '256px' : '0', // Adjust left margin if navbar is present
-              padding: '20px',
-              height: '100vh', // Ensure full height
-              boxSizing: 'border-box', // Include padding in height
-            }}>
-        <Routes>
-           <Route path="/" element={<Login />} />
-           <Route path="/home" element={<Home />} />
-           <Route path="*" element={<NoRouteFound />} />
-        </Routes>
-        </div>
-     </>
+      <>
+          {notLoginScreen && <Navbar/>}
+          <div className={`routesWrapper ${notLoginScreen ? 'withNavbar' : ''}`}>
+              <Routes>
+                  <Route path="/" element={<Login/>}/>
+                  <Route path="/home" element={<Home/>}/>
+                  <Route path="*" element={<NoRouteFound/>}/>
+              </Routes>
+          </div>
+      </>
   );
 };
 

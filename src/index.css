@@ -1,0 +1,17 @@
+.ant-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+:global(.antd-override .ant-message) {
+    position: absolute !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%); /* Add vertical centering */
+    z-index: 1000; /* Ensure message is above other elements */
+}
