@@ -18,10 +18,13 @@ const Home = () => {
         setMarkdownContent(''); // Clear previous content
 
         try {
-            const response = await fetch('https://fiainv7nccbwodoqzxflt7aora0apzes.lambda-url.us-west-1.on.aws/api/lesson-plan', {
-                method: 'POST', headers: {
+            const response = await fetch('https://d2qqqlxkk5723k.cloudfront.net/api/lesson-plan-with-assistant', {
+                method: 'POST',
+                headers: {
                     'Content-Type': 'application/json',
-                }, body: JSON.stringify({
+                },
+                mode: 'cors',
+                body: JSON.stringify({
                     prompt, grade_level, topic,
                 }),
             });
