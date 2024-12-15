@@ -108,7 +108,7 @@ const Home = () => {
         <div style={{marginTop: '20px'}}>
             <div className={markdownContent ? 'responseContainer' : ''}>
                 {(isLoading && !markdownContent) && <Skeleton active/>}
-                {(!isLoading && markdownContent) && (
+                {markdownContent && (
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                         {markdownContent}
                     </ReactMarkdown>
