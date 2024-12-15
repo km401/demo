@@ -1,5 +1,8 @@
 import {useState} from 'react';
 import {Button, Form, Input, Typography, message, Skeleton} from 'antd';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import './pages.css';
 
 const {TextArea} = Input;
 const {Title} = Typography;
@@ -55,14 +58,14 @@ const Home = () => {
     };
 
 
-    return (<div className={'antd-override'} style={{padding: '20px', maxWidth: '700px', margin: '0 auto'}}>
+    return (<div className={'formBody'}>
         {contextHolder}
         <Title level={2}>Lesson Plan Generator</Title>
         <Form
             layout="vertical"
             initialValues={{
                 prompt: 'The rise and fall of the Roman Empire',
-                grade_level: 8,
+                grade_level: '8',
                 topic: 'History',
             }}
             onFinish={onFinish}>
@@ -103,9 +106,13 @@ const Home = () => {
         </Form>
 
         <div style={{marginTop: '20px'}}>
-            <div style={{padding: '10px', whiteSpace: 'pre-wrap', overflowY: 'auto'}}>
-                {isLoading && <Skeleton active />}
-                {markdownContent}
+            <div className={markdownContent ? 'responseContainer' : ''}>
+                {(isLoading && !markdownContent) && <Skeleton active/>}
+                {(!isLoading && markdownContent) && (
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {markdownContent}
+                    </ReactMarkdown>
+                )}
             </div>
         </div>
     </div>);
