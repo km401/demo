@@ -20,7 +20,7 @@ const Home = () => {
         setIsLoading(true);
 
         try {
-            const response = await fetch('https://d2qqqlxkk5723k.cloudfront.net/api/lesson-plan-with-assistant', {
+            const response = await fetch('https://development.classo.ai/api/lesson-plan-with-assistant', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
