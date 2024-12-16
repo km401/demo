@@ -3,8 +3,7 @@ import {Button, Form, Input, Typography, message, Skeleton, Space} from 'antd';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import './pages.css';
-import { saveAs } from 'file-saver';
-import JSZip from 'jszip';
+import {downloadWordDocument} from './helpers.jsx'
 
 const {TextArea} = Input;
 const {Title} = Typography;
@@ -16,26 +15,6 @@ const Home = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [messageApi, contextHolder] = message.useMessage();
     const [formValues, setFormValues] = useState({ prompt: '', grade_level: '', topic: '' });
-
-    const downloadWordDocument = () => {
-        const zip = new JSZip();
-        const doc = zip.folder("Lesson Plans");
-
-        responses.forEach((response, index) => {
-            const content = `
-            **Prompt:** ${response.prompt}\n
-            **Grade Level:** ${response.grade_level}\n
-            **Topic:** ${response.topic}\n\n
-            ${response.content}
-        `;
-
-            doc.file(`LessonPlan_${index + 1}.docx`, content);
-        });
-
-        zip.generateAsync({ type: "blob" }).then((content) => {
-            saveAs(content, "LessonPlans.zip");
-        });
-    };
 
     const onFinish = async (values) => {
         const { prompt, grade_level, topic } = values; // Get form field values
@@ -92,9 +71,6 @@ const Home = () => {
         }
     };
 
-    // const renderSkeleton =  {(isLoading && responses.length === 0 && !streamingContent) && <Skeleton active/>}
-
-
 
     return (<div className={'homeContainer'}>
         {contextHolder}
@@ -150,8 +126,7 @@ const Home = () => {
                 {responses.map((response, index) => (
                     <div key={index} className="responseBlock">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                            {`**Prompt:** ${response.prompt}
-                            **Grade Level:** ${response.grade_level}
+                            {`**Prompt:** ${response.prompt} **Grade Level:** ${response.grade_level}
                             **Topic:** ${response.topic}\n\n${response.content}`}
                         </ReactMarkdown>
                     </div>
@@ -163,8 +138,7 @@ const Home = () => {
                 {streamingContent && (
                     <div className="responseBlock streaming">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                            {`**Prompt:** ${formValues.prompt}
-                            **Grade Level:** ${formValues.grade_level}
+                            {`**Prompt:** ${formValues.prompt}**Grade Level:** ${formValues.grade_level}
                             **Topic:** ${formValues.topic}\n\n${streamingContent}`}
                         </ReactMarkdown>
                     </div>
@@ -173,7 +147,7 @@ const Home = () => {
         </div>
         {responses.length > 0 &&
             <Space className="downloadWord">
-                <Button type="primary" onClick={downloadWordDocument}>
+                <Button type="primary" onClick={() => downloadWordDocument(responses)}>
                     Download as Word
                 </Button>
             </Space>
