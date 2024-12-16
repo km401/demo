@@ -1,8 +1,10 @@
 import {useState} from 'react';
-import {Button, Form, Input, Typography, message, Skeleton} from 'antd';
+import {Button, Form, Input, Typography, message, Skeleton, Space} from 'antd';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import './pages.css';
+import { saveAs } from 'file-saver';
+import JSZip from 'jszip';
 
 const {TextArea} = Input;
 const {Title} = Typography;
@@ -10,14 +12,38 @@ const {Title} = Typography;
 
 const Home = () => {
     const [responses, setResponses] = useState([]); // Store all responses
+    const [streamingContent, setStreamingContent] = useState(''); // For progressive rendering
     const [isLoading, setIsLoading] = useState(false);
     const [messageApi, contextHolder] = message.useMessage();
+    const [formValues, setFormValues] = useState({ prompt: '', grade_level: '', topic: '' });
 
+    const downloadWordDocument = () => {
+        const zip = new JSZip();
+        const doc = zip.folder("Lesson Plans");
+
+        responses.forEach((response, index) => {
+            const content = `
+            **Prompt:** ${response.prompt}\n
+            **Grade Level:** ${response.grade_level}\n
+            **Topic:** ${response.topic}\n\n
+            ${response.content}
+        `;
+
+            doc.file(`LessonPlan_${index + 1}.docx`, content);
+        });
+
+        zip.generateAsync({ type: "blob" }).then((content) => {
+            saveAs(content, "LessonPlans.zip");
+        });
+    };
 
     const onFinish = async (values) => {
         const { prompt, grade_level, topic } = values; // Get form field values
+        setFormValues(values);
+
 
         setIsLoading(true);
+        setStreamingContent(''); // Clear streaming content
 
         try {
             const response = await fetch('https://development.classo.ai/api/lesson-plan-with-assistant', {
@@ -47,6 +73,7 @@ const Home = () => {
                 if (done) break;
 
                 content += decoder.decode(value, {stream: true});
+                setStreamingContent(content); // Update progressively
             }
             setResponses((prevResponses) => [
                 ...prevResponses,
@@ -57,12 +84,16 @@ const Home = () => {
                     content,
                 },
             ]);
+            setStreamingContent(''); // Clear the streaming content once complete
         } catch (error) {
             messageApi.error(`An error occurred: ${error.message}`);
         } finally {
             setIsLoading(false);
         }
     };
+
+    // const renderSkeleton =  {(isLoading && responses.length === 0 && !streamingContent) && <Skeleton active/>}
+
 
 
     return (<div className={'homeContainer'}>
@@ -81,7 +112,7 @@ const Home = () => {
                 name="prompt"
                 rules={[{required: true, message: 'Please enter a prompt!'}]}>
                 <TextArea
-                    placeholder="Enter the prompt" />
+                    placeholder="Enter the prompt"/>
             </Form.Item>
 
             <Form.Item
@@ -98,7 +129,7 @@ const Home = () => {
                 name="topic"
                 rules={[{required: true, message: 'Please enter a topic!'}]}>
                 <Input
-                    placeholder="Enter the topic" />
+                    placeholder="Enter the topic"/>
             </Form.Item>
 
             <Form.Item>
@@ -113,18 +144,40 @@ const Home = () => {
         </Form>
 
         <div style={{ marginTop: '20px' }}>
-            <div className="responseContainer">
-                {isLoading && responses.length === 0 && <Skeleton active />}
+            <div className={(responses.length > 0 || streamingContent || isLoading) ? 'responseContainer' : ''}>
+
+                {/* Render completed responses */}
                 {responses.map((response, index) => (
                     <div key={index} className="responseBlock">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                            {`**Prompt:** ${response.prompt}\n\n**Grade Level:** ${response.grade_level}\n\n**Topic:** ${response.topic}\n\n${response.content}`}
+                            {`**Prompt:** ${response.prompt}
+                            **Grade Level:** ${response.grade_level}
+                            **Topic:** ${response.topic}\n\n${response.content}`}
                         </ReactMarkdown>
-                        <hr />
                     </div>
                 ))}
+
+                {(isLoading && !streamingContent) && <Skeleton active />}
+
+                {/* Render streaming content with current form data */}
+                {streamingContent && (
+                    <div className="responseBlock streaming">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            {`**Prompt:** ${formValues.prompt}
+                            **Grade Level:** ${formValues.grade_level}
+                            **Topic:** ${formValues.topic}\n\n${streamingContent}`}
+                        </ReactMarkdown>
+                    </div>
+                )}
             </div>
         </div>
+        {responses.length > 0 &&
+            <Space className="downloadWord">
+                <Button type="primary" onClick={downloadWordDocument}>
+                    Download as Word
+                </Button>
+            </Space>
+        }
     </div>);
 };
 

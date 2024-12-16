@@ -12,7 +12,10 @@
   },
   "dependencies": {
     "antd": "^5.21.2",
+    "antd-style": "^3.7.1",
     "aws-amplify": "^6.6.3",
+    "file-saver": "^2.0.5",
+    "jszip": "^3.10.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-markdown": "^9.0.1",
