@@ -9,7 +9,7 @@ const {Title} = Typography;
 
 
 const Home = () => {
-    const [markdownContent, setMarkdownContent] = useState('');
+    const [responses, setResponses] = useState([]); // Store all responses
     const [isLoading, setIsLoading] = useState(false);
     const [messageApi, contextHolder] = message.useMessage();
 
@@ -18,7 +18,6 @@ const Home = () => {
         const { prompt, grade_level, topic } = values; // Get form field values
 
         setIsLoading(true);
-        setMarkdownContent(''); // Clear previous content
 
         try {
             const response = await fetch('https://d2qqqlxkk5723k.cloudfront.net/api/lesson-plan-with-assistant', {
@@ -48,8 +47,16 @@ const Home = () => {
                 if (done) break;
 
                 content += decoder.decode(value, {stream: true});
-                setMarkdownContent(content); // Update progressively
             }
+            setResponses((prevResponses) => [
+                ...prevResponses,
+                {
+                    prompt,
+                    grade_level,
+                    topic,
+                    content,
+                },
+            ]);
         } catch (error) {
             messageApi.error(`An error occurred: ${error.message}`);
         } finally {
@@ -105,14 +112,17 @@ const Home = () => {
             </Form.Item>
         </Form>
 
-        <div style={{marginTop: '20px'}}>
-            <div className={markdownContent ? 'responseContainer' : ''}>
-                {(isLoading && !markdownContent) && <Skeleton active/>}
-                {markdownContent && (
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                        {markdownContent}
-                    </ReactMarkdown>
-                )}
+        <div style={{ marginTop: '20px' }}>
+            <div className="responseContainer">
+                {isLoading && responses.length === 0 && <Skeleton active />}
+                {responses.map((response, index) => (
+                    <div key={index} className="responseBlock">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            {`**Prompt:** ${response.prompt}\n\n**Grade Level:** ${response.grade_level}\n\n**Topic:** ${response.topic}\n\n${response.content}`}
+                        </ReactMarkdown>
+                        <hr />
+                    </div>
+                ))}
             </div>
         </div>
     </div>);
