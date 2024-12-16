@@ -58,7 +58,7 @@ const Home = () => {
     };
 
 
-    return (<div className={'formBody'}>
+    return (<div className={'homeContainer'}>
         {contextHolder}
         <Title level={2}>Lesson Plan Generator</Title>
         <Form

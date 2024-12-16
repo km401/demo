@@ -16,10 +16,11 @@ const App = () => {
 
   return (
       <>
-          {notLoginScreen && <Navbar/>}
-          <div className={`routesWrapper ${notLoginScreen ? 'withNavbar' : ''}`}>
+          {/*{notLoginScreen && <Navbar/>}*/}
+          {/*<div className={`routesWrapper ${notLoginScreen ? 'withNavbar' : ''}`}>*/}
+          <div>
               <Routes>
-                  <Route path="/" element={<Login/>}/>
+                  <Route path="/" element={<Home/>}/>
                   <Route path="/home" element={<Home/>}/>
                   <Route path="*" element={<NoRouteFound/>}/>
               </Routes>
