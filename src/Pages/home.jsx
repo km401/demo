@@ -126,7 +126,8 @@ const Home = () => {
                 {responses.map((response, index) => (
                     <div key={index} className="responseBlock">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                            {`**Prompt:** ${response.prompt} **Grade Level:** ${response.grade_level}
+                            {`**Prompt:** ${response.prompt}
+                            **Grade Level:** ${response.grade_level}
                             **Topic:** ${response.topic}\n\n${response.content}`}
                         </ReactMarkdown>
                     </div>
@@ -138,7 +139,8 @@ const Home = () => {
                 {streamingContent && (
                     <div className="responseBlock streaming">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                            {`**Prompt:** ${formValues.prompt}**Grade Level:** ${formValues.grade_level}
+                            {`**Prompt:** ${formValues.prompt}
+                            **Grade Level:** ${formValues.grade_level}
                             **Topic:** ${formValues.topic}\n\n${streamingContent}`}
                         </ReactMarkdown>
                     </div>
