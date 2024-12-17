@@ -110,6 +110,7 @@ const Home = () => {
 
             <Form.Item>
                 <Button
+                    className="linear-gradient-button"
                     type="primary"
                     htmlType="submit"
                     block

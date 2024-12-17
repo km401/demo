@@ -51,3 +51,29 @@
   .downloadWord{
     padding: 20px 0;
   }
+
+.linear-gradient-button {
+  border: none;
+  position: relative;
+  overflow: hidden;
+  color: #fff; /* Button text color */
+}
+
+.linear-gradient-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #6253e1, #04befe);
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.linear-gradient-button:hover::before {
+  opacity: 0;
+}
+
+.linear-gradient-button > span {
+  position: relative;
+  z-index: 1;
+}
+
