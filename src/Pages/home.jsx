@@ -17,8 +17,10 @@ const Home = () => {
     const [formValues, setFormValues] = useState({ prompt: '', grade_level: '', topic: '' });
 
     const onFinish = async (values) => {
-        const { prompt, grade_level, topic } = values; // Get form field values
-        setFormValues(values);
+        const prompt = `Create a lesson plan for Kipp about ${values.prompt}`;
+
+        const { grade_level, topic } = values; // Get form field values
+        setFormValues({ ...values, prompt });
 
 
         setIsLoading(true);
@@ -78,9 +80,9 @@ const Home = () => {
         <Form
             layout="vertical"
             initialValues={{
-                prompt: 'The rise and fall of the Roman Empire',
+                prompt: 'Carl Sandburg\'s poem "Chicago"',
                 grade_level: '8',
-                topic: 'History',
+                topic: 'English Language Arts',
             }}
             onFinish={onFinish}>
             <Form.Item
