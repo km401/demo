@@ -27,7 +27,7 @@ const Home = () => {
         setStreamingContent(''); // Clear streaming content
 
         try {
-            const response = await fetch('https://development.classo.ai/api/lesson-plan-with-assistant', {
+            const response = await fetch('https://dev.classo.ai/api/lesson-plan-with-assistant', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
